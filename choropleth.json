@@ -43,6 +43,7 @@
     "from": {"data": "states"},
     "properties": {
       "enter": {
+        "path": {"field": "layout_path"},
         "fill": {"value": "#dedede"},
         "stroke": {"value": "white"}
       },
