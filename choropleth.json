@@ -17,21 +17,22 @@
 }
 ],
 "marks": [
-{
-"type": "path",
-"from": {"data": "states"},
-"properties": {
-"enter": {
-"fill": {"value": "#dedede"},
-"stroke": {"value": "white"}
-},
-"update": {
-"path": {"field": "layout_path"}
-},
-  "hover": {
-    "fill": {"value": "purple"}
+  {
+    "type": "path",
+    "from": {"data": "states"},
+    "properties": {
+      "enter": {
+        "fill": {"value": "#dedede"},
+        "stroke": {"value": "white"}
+      },
+      "update": {
+        "path": {"field": "layout_path"},
+        "fill": {"value": "#dedede"}
+      },
+      "hover": {
+        "fill": {"value": "purple"}
+      }
+    }
   }
-}
-}
 ]
 }
