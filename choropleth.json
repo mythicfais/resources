@@ -33,7 +33,7 @@
       },
       "update": {
         "path": {"field": "layout_path"},
-        "fill": {"value": "#dedede"}
+        "fill": {"scale": "color", "field": "losses.Amount", "value": "#dedede"}
       },
       "hover": {
         "fill": {"value": "purple"}
