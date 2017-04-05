@@ -21,14 +21,22 @@
     "format": {"type": "csv", "parse": {"Amount": "number"}},
     "transform": [
       { "type": "geopath", "projection": "albersUsa" },
-      { "type": "lookup", "on": "losses", "onKey": "id",
+      { "type": "lookup", "on": "losses", "onKey": "State_Code",
         "keys": ["id"], "as": ["losses"] },
       { "type": "filter",
         "test": "datum.layout_path!=null && datum.losses!=null" }
     ]
   }
 ],
-
+  "scales": [
+    {
+      "name": "color",
+      "type": "quantize",
+      "domain": [0, 0.15],
+      "range": ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6",
+        "#4292c6", "#2171b5", "#08519c", "#08306b"]
+    }
+  ],
 "marks": [
   {
     "type": "path",
