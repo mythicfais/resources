@@ -4,12 +4,12 @@
   "data": [
     {
       "name": "losses",
-      "url": "/losses.csv",
+      "url": "https://raw.githubusercontent.com/mythicfais/resources/master/losses2015_transformed.csv",
       "format": {"type": "csv", "parse": {"Amount":"number"}}
     },
     {
       "name": "states",
-      "url": "/us-10m.json",
+      "url": "https://raw.githubusercontent.com/mythicfais/resources/master/us-10m.json",
       "format": {"type": "topojson", "feature": "states"},
       "transform": [
         { "type": "geopath", "projection": "albersUsa" },
