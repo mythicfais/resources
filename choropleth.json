@@ -18,7 +18,14 @@
   {
     "name": "losses",
     "url": "https://raw.githubusercontent.com/mythicfais/resources/master/losses2015_transformed.csv",
-    "format": {"type": "csv", "parse": "auto"}
+    "format": {"type": "csv", "parse": {"Amount": "number"}},
+    "transform": [
+      { "type": "geopath", "projection": "albersUsa" },
+      { "type": "lookup", "on": "losses", "onKey": "id",
+        "keys": ["id"], "as": ["losses"] },
+      { "type": "filter",
+        "test": "datum.layout_path!=null && datum.losses!=null" }
+    ]
   }
 ],
 
@@ -33,7 +40,7 @@
       },
       "update": {
         "path": {"field": "layout_path"},
-        "fill": {"scale": "color", "field": "losses.Amount", "value": "#dedede"}
+        "fill": {"scale": "color", "field": "losses.Amount"}
       },
       "hover": {
         "fill": {"value": "purple"}
