@@ -1,60 +1,43 @@
 {
-"width": 900,
-"height": 560,
-"padding": {"top": 25, "left": 0, "right": 0, "bottom": 0},
-
-"data": [
-  {
-    "name": "states",
-    "url": "https://raw.githubusercontent.com/mythicfais/resources/master/us-10m.json",
-    "format": {"type": "topojson", "feature": "states"},
-    "transform": [
-      { "type": "geopath", "projection": "albersUsa"},
-      { "type": "lookup", "on": "losses", "onKey": "State_Code",
-        "keys": ["id"], "as": ["losses"] },
-      { "type": "filter",
-        "test": "datum.layout_path!=null && datum.losses!=null" }
-    ]
-  },
-  {
-    "name": "losses",
-    "url": "https://raw.githubusercontent.com/mythicfais/resources/master/losses2015_transformed.csv",
-    "format": {"type": "csv", "parse": {"Amount": "number"}}
-  }
-],
+  "width": 960,
+  "height": 500,
+  "data": [
+    {
+      "name": "losses",
+      "url": "/losses.csv",
+      "format": {"type": "csv", "parse": {"Amount":"number"}}
+    },
+    {
+      "name": "states",
+      "url": "/us-10m.json",
+      "format": {"type": "topojson", "feature": "states"},
+      "transform": [
+        { "type": "geopath", "projection": "albersUsa" },
+        { "type": "lookup", "on": "losses", "onKey": "State_Code",
+          "keys": ["id"], "as": ["losses"] },
+        { "type": "filter",
+          "test": "datum.layout_path!=null && datum.losses!=null" }
+      ]
+    }
+  ],
   "scales": [
     {
       "name": "color",
       "type": "quantize",
-      "domain": [0,0.15],
-      "range": [
-        "#f7fbff",
-        "#deebf7",
-        "#c6dbef",
-        "#9ecae1",
-        "#6baed6",
-        "#4292c6",
-        "#2171b5",
-        "#08519c",
-        "#08306b"
-      ]
+      "domain": [0, 5000000],
+      "range": ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6",
+        "#4292c6", "#2171b5", "#08519c", "#08306b"]
     }
   ],
-"marks": [
-  {
-    "type": "path",
-    "from": {"data": "states"},
-    "properties": {
-      "enter": {
-        "path": {"field": "layout_path"}
-      },
-      "update": {
-        "fill": {"value": {"scale": "color", "field": "losses.Amount"}}
-      },
-      "hover": {
-        "fill": {"value": "purple"}
+  "marks": [
+    {
+      "type": "path",
+      "from": {"data": "states"},
+      "properties": {
+        "enter": { "path": {"field": "layout_path"} },
+        "update": { "fill": {"scale": "color", "field": "losses.Amount"} },
+        "hover": { "fill": {"value": "red"} }
       }
     }
-  }
-]
+  ]
 }
