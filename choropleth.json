@@ -11,10 +11,10 @@
     "transform": [
       {
         "type": "geopath", "projection": "albersUsa"},
-      { "type": "lookup", "on": "losses", "onKey": "State_Code",
-        "keys": ["id"], "as": ["losses"] },
+      { "type": "lookup", "on": "states", "onKey": "State_Code",
+        "keys": ["id"], "as": ["states"] },
       { "type": "filter",
-        "test": "datum.layout_path!=null && datum.losses!=null" }
+        "test": "datum.layout_path!=null && datum.states!=null" }
     ]
   },
   {
