@@ -49,7 +49,7 @@
       },
       "update": {
         "path": {"field": "layout_path"},
-        "fill": {"value": "#dedede", "scale": "color", "field": "losses.Amount"}
+        "fill": {"value": {"scale": "color", "field": "losses.Amount"}}
       },
       "hover": {
         "fill": {"value": "purple"}
