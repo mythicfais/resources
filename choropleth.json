@@ -9,12 +9,11 @@
     "url": "https://raw.githubusercontent.com/mythicfais/resources/master/us-10m.json",
     "format": {"type": "topojson", "feature": "states"},
     "transform": [
-      {
-        "type": "geopath", "projection": "albersUsa"},
-      { "type": "lookup", "on": "states", "onKey": "State_Code",
-        "keys": ["id"], "as": ["states"] },
+      { "type": "geopath", "projection": "albersUsa"},
+      { "type": "lookup", "on": "losses", "onKey": "State_Code",
+        "keys": ["id"], "as": ["losses"] },
       { "type": "filter",
-        "test": "datum.layout_path!=null && datum.states!=null" }
+        "test": "datum.layout_path!=null && datum.losses!=null" }
     ]
   },
   {
@@ -47,11 +46,9 @@
     "from": {"data": "states"},
     "properties": {
       "enter": {
-        "fill": {"value": "#dedede"},
-        "stroke": {"value": "white"}
+        "path": {"field": "layout_path"}
       },
       "update": {
-        "path": {"field": "layout_path"},
         "fill": {"value": {"scale": "color", "field": "losses.Amount"}}
       },
       "hover": {
