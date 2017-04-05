@@ -1,0 +1,77 @@
+{
+  "width": 400,
+  "height": 200,
+  "data": [
+    {
+      "name": "table",
+      "url": "https://raw.githubusercontent.com/mythicfais/resources/master/losses2015_transformed.csv",
+      "format": {"type": "csv"}
+    }
+  ],
+  "signals": [
+    {
+      "name": "tooltip",
+      "init": {},
+      "streams": [
+        {"type": "rect:mouseover", "expr": "datum"},
+        {"type": "rect:mouseout", "expr": "{}"}
+      ]
+    }
+  ],
+  "prediDamage_Descpes": [
+    {
+      "name": "tooltip", "type": "==",
+      "operands": [{"signal": "tooltip._id"}, {"arg": "id"}]
+    }
+  ],
+  "scales": [
+    {"name": "Damage_Descpegories", "type": "ordinal", "range": "height", "domain": {"data":"table", "field":"Damage_Descp"}},
+    {"name": "amounts", "range": "width", "nice": true, "domain": {"data":"table", "field":"Amount"}}
+  ],
+  "axes": [
+    {"type": "x", "scale": "amounts", "orient":"top"},
+    {"type": "y", "scale": "Damage_Descpegories"}
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": {"data":"table"},
+      "properties": {
+        "enter": {
+          "y": {"scale":"Damage_Descpegories", "field":"Damage_Descp"},
+          "height": {"scale":"Damage_Descpegories", "band":true, "offset":-1},
+          "x": {"value": 0},
+          "width": {"scale":"amounts", "field":"Amount"}
+        },
+        "update": { "fill": {"value":"steelblue"} },
+        "hover": { "fill": {"value":"red"} }
+      }
+    },
+    {
+      "type": "text",
+      "properties": {
+        "enter": {
+          "align": {"value": "center"},
+          "fill": {"value": "#333"}
+        },
+        "update": {
+          "x": {"scale": "amounts", "signal": "tooltip.Amount", "offset": 10},
+          "y": {"scale": "Damage_Descpegories", "signal": "tooltip.Damage_Descp", "offset": 15},
+          "text": {"signal": "tooltip.Amount"},
+          "fillOpacity": {
+            "rule": [
+              {
+                "prediDamage_Descpe": {
+                  "name": "tooltip",
+                  "id": {"value": null}
+                },
+                "value": 0
+              },
+              {"value": 1}
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
