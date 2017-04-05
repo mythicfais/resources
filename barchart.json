@@ -1,11 +1,22 @@
 {
-  "width": 400,
-  "height": 200,
+  "width": 750,
+  "height": 500,
   "data": [
     {
       "name": "table",
       "url": "https://raw.githubusercontent.com/mythicfais/resources/master/losses2015_transformed.csv",
-      "format": {"type": "csv"}
+      "format": {"type": "csv","parse": {"Amount": "number"}}
+    },
+    {
+      "name": "total",
+      "source": "table",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": "Damage_Descp",
+          "summarize": [{"field": "Amount", "ops": ["sum"], "as": ["sum"]}]
+        }
+      ]
     }
   ],
   "signals": [
@@ -13,38 +24,57 @@
       "name": "tooltip",
       "init": {},
       "streams": [
-        {"type": "rect:mouseover", "expr": "datum"},
-        {"type": "rect:mouseout", "expr": "{}"}
+        {"type": "rect:mouseover","expr": "datum"},
+        {"type": "rect:mouseout","expr": "{}"}
       ]
     }
   ],
-  "prediDamage_Descpes": [
+  "predicates": [
     {
-      "name": "tooltip", "type": "==",
-      "operands": [{"signal": "tooltip._id"}, {"arg": "id"}]
+      "name": "tooltip",
+      "type": "==",
+      "operands": [{"signal": "tooltip._id"},{"arg": "id"}]
     }
   ],
   "scales": [
-    {"name": "Damage_Descpegories", "type": "ordinal", "range": "height", "domain": {"data":"table", "field":"Damage_Descp"}},
-    {"name": "amounts", "range": "width", "nice": true, "domain": {"data":"table", "field":"Amount"}}
+    {
+      "name": "categories",
+      "type": "ordinal",
+      "range": "height",
+      "domain": {"data": "total","field": "Damage_Descp","sort": {"field": "sum", "op": "max"}}
+    },
+    {
+      "name": "amounts",
+      "format": "s",
+      "range": "width",
+      "nice": true,
+      "domain": {"data": "total","field": "sum"}
+    }
   ],
   "axes": [
-    {"type": "x", "scale": "amounts", "orient":"top"},
-    {"type": "y", "scale": "Damage_Descpegories"}
+    {"type": "x","scale": "amounts"},
+    {"type": "y","scale": "categories"}
   ],
   "marks": [
     {
       "type": "rect",
-      "from": {"data":"table"},
+      "from": {"data": "total"},
       "properties": {
         "enter": {
-          "y": {"scale":"Damage_Descpegories", "field":"Damage_Descp"},
-          "height": {"scale":"Damage_Descpegories", "band":true, "offset":-1},
+          "y": {"scale": "categories","field": "Damage_Descp"},
+          "height": {"scale": "categories","band": true,"offset": -1},
           "x": {"value": 0},
-          "width": {"scale":"amounts", "field":"Amount"}
+          "width": {"scale": "amounts","field": "sum"}
         },
-        "update": { "fill": {"value":"steelblue"} },
-        "hover": { "fill": {"value":"red"} }
+        "update": {
+          "fill": [
+            {
+              "test": "datum._id == tooltip._id",
+              "value": "red"
+            },
+            {"value": "steelblue"}
+          ]
+        }
       }
     },
     {
@@ -55,16 +85,21 @@
           "fill": {"value": "#333"}
         },
         "update": {
-          "x": {"scale": "amounts", "signal": "tooltip.Amount", "offset": 10},
-          "y": {"scale": "Damage_Descpegories", "signal": "tooltip.Damage_Descp", "offset": 15},
-          "text": {"signal": "tooltip.Amount"},
+          "x": {
+            "scale": "amounts",
+            "signal": "tooltip.sum",
+            "offset": 30
+          },
+          "y": {
+            "scale": "categories",
+            "signal": "tooltip.Damage_Descp",
+            "offset": 11
+          },
+          "text": {"signal": "tooltip.sum"},
           "fillOpacity": {
             "rule": [
               {
-                "prediDamage_Descpe": {
-                  "name": "tooltip",
-                  "id": {"value": null}
-                },
+                "predicate": {"name": "tooltip","id": {"value": null}},
                 "value": 0
               },
               {"value": 1}
