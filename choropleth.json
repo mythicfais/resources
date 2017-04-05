@@ -27,7 +27,10 @@
 },
 "update": {
 "path": {"field": "layout_path"}
-}
+},
+  "hover": {
+    "fill": {"value": "purple"}
+  }
 }
 }
 ]
