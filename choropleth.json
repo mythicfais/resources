@@ -52,7 +52,6 @@
     "from": {"data": "states"},
     "properties": {
       "enter": {
-        
         "fill": {"value": "#dedede"},
         "stroke": {"value": "white"}
       },
