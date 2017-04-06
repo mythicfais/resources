@@ -5,7 +5,10 @@
     {
       "name": "losses",
       "url": "https://raw.githubusercontent.com/mythicfais/resources/master/losses2015_transformed.csv",
-      "format": {"type": "csv", "parse": {"Amount":"number"}}
+      "format": {"type": "csv", "parse": {"Amount":"number", "State_Abv":"string", "State_Code":"number", "Damage_Code":"string", "Damage_Descp":"string"}},
+      "transform": [
+        {"type": "aggregate", "groupby": "State_Code", "summarize": [{"field": "Amount", "ops": ["sum"], "as": ["Amount_sum"]}]}
+      ]
     },
     {
       "name": "states",
@@ -24,7 +27,7 @@
     {
       "name": "color",
       "type": "quantize",
-      "domain": [0, 5000000],
+      "domain": {"data": "losses", "field": "Amount_sum"},
       "range": ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6",
         "#4292c6", "#2171b5", "#08519c", "#08306b"]
     }
@@ -35,7 +38,7 @@
       "from": {"data": "states"},
       "properties": {
         "enter": { "path": {"field": "layout_path"} },
-        "update": { "fill": {"scale": "color", "field": "losses.Amount"} },
+        "update": { "fill": {"scale": "color", "field": "losses.Amount_sum"} },
         "hover": { "fill": {"value": "red"} }
       }
     }
