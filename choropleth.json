@@ -28,7 +28,7 @@
       "name": "color",
       "type": "linear",
       "domain": {"data": "losses", "field": "Amount_sum"},
-      "range": ["#91ffc2", "#002a66"]
+      "range": ["#d3fff8", "#002a66"]
     }
   ],
   "marks": [
