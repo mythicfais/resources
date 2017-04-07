@@ -26,10 +26,9 @@
   "scales": [
     {
       "name": "color",
-      "type": "quantize",
+      "type": "linear",
       "domain": {"data": "losses", "field": "Amount_sum"},
-      "range": ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6",
-        "#4292c6", "#2171b5", "#08519c", "#08306b"]
+      "range": ["#f7fbff", "#08306b"]
     }
   ],
   "marks": [
